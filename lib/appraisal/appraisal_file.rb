@@ -15,7 +15,7 @@ module Appraisal
     def initialize
       @appraisals = []
       @gemfile = Gemfile.new
-      @gemfile.load(ENV['BUNDLE_GEMFILE'] || 'Gemfile')
+      @gemfile.load('Gemfile')
 
       if File.exist? path
         run IO.read(path)

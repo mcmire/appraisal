@@ -83,10 +83,6 @@ module Appraisal
       Utils.join_parts PARTS.map { |part| send("#{part}_entry") }
     end
 
-    def for_dup
-      Utils.join_parts PARTS.map { |part| send("#{part}_entry_for_dup") }
-    end
-
     def gemspec(options = {})
       @gemspecs << Gemspec.new(options)
     end
@@ -105,30 +101,18 @@ module Appraisal
       @sources.uniq.map { |source| "source #{source.inspect}" }.join("\n")
     end
 
-    alias_method :source_entry_for_dup, :source_entry
-
     def ruby_version_entry
       if @ruby_version
         "ruby #{@ruby_version.inspect}"
       end
     end
 
-    alias_method :ruby_version_entry_for_dup, :ruby_version_entry
-
     def gemspec_entry
       @gemspecs.map(&:to_s).join("\n")
     end
 
-    def gemspec_entry_for_dup
-      @gemspecs.map(&:for_dup).join("\n")
-    end
-
     def dependencies_entry
       @dependencies.to_s
-    end
-
-    def dependencies_entry_for_dup
-      @dependencies.for_dup
     end
 
     %i[gits paths platforms groups source_blocks install_if].
@@ -138,10 +122,6 @@ module Appraisal
 
         def #{method_name}_entry
           @#{method_name}.values.map(&:to_s).join("\n\n")
-        end
-
-        def #{method_name}_entry_for_dup
-          @#{method_name}.values.map(&:for_dup).join("\n\n")
         end
       METHODS
     end
